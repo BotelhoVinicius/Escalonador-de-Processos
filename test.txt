@@ -10,5 +10,3 @@ T7;2;9
 T8;1;6
 T9;3;8
 T10;2;10
-
-dfjsorhjawsoihjseiohjsrio
