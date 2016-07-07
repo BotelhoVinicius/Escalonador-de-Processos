@@ -106,7 +106,7 @@
 #include "listaEnc.h"
 
 #ifndef ESCALONADOR_H
-#define ESCALONADOR
+#define ESCALONADOR_H
 
 typedef struct  task task_t;
 

@@ -10,6 +10,7 @@
 #include "escalonador.h"/**< Biblioteca referente ao Escalonador */
 #include "listaEnc.h"/**< Biblioteca referente a Lista Duplamente Encadeada */
 #include "no.h"/**< Biblioteca referente a Nós */
+#include "diagrama.h"
 
 void imprimeLista(lista_enc_t* lista);
 
@@ -29,6 +30,8 @@ int main(int argc,char** argv)
     lista = criaListaDeTarefas(input);
 
     imprimeLista(lista);
+
+    taskImprimeLatex(lista);
 
     fclose(input);
 
