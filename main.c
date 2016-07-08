@@ -10,13 +10,14 @@
 #include "escalonador.h"/**< Biblioteca referente ao Escalonador */
 #include "listaEnc.h"/**< Biblioteca referente a Lista Duplamente Encadeada */
 #include "no.h"/**< Biblioteca referente a Nós */
+//#include "testGenerator.h"
 
 void imprimeLista(lista_enc_t* lista);
 
 int main(int argc,char** argv)
 {
     FILE *input = NULL;
-    lista_enc_t *lista = NULL;
+    lista_enc_t *listaTarefas = NULL,*listaPrioridade = NULL;
 
     input = fopen(argv[1],"r");
     if(input == NULL){
@@ -26,9 +27,14 @@ int main(int argc,char** argv)
 
     int HP = hiperPeriod(input);
 
-    lista = criaListaDeTarefas(input);
+    listaTarefas = criaListaDeTarefas(input);
 
-    imprimeLista(lista);
+    listaPrioridade = ordenaListaPorPrioridade(listaTarefas);
+
+    imprimeLista(listaTarefas);
+    printf("\n");
+    imprimeLista(listaPrioridade);
+    printf("HIPERCICLO: %d",HP);
 
     fclose(input);
 

@@ -3,7 +3,7 @@
 *\brief Arquivo contendo os protótipos das funções da biblioteca escalonador.
 *\author Vinicius Botelho Souza
 *\date Jun 2016
-*\version 1.1
+*\version 1.2
 */
 //STRUCT
 /*!
@@ -31,6 +31,14 @@
 *\endcode
 *\param fp Arquivo de entrada.
 *\return lista_enc_t* - Lista contendo as tarefas.
+*/
+//CRIA_LISTA_DE_TAREFAS
+/*!
+*\fn lista_enc_t* ordenaListaPorPrioridade(lista_enc_t* lista)
+*\brief Ordena uma lista baseado na prioridade de cada tarefa presente na lista, ordenando por BubbleSort.
+*\details Ordena a lista utilizando bubblesort, caso a lista seja NULL a aplicação é terminada. A lista é copiada e retornada para uma nova lista ordenada.
+*\param lista Lista encadeada não ordenada.
+*\return lista_enc_t* - Lista contendo as tarefas ordenadas.
 */
 //CRIA_TAREFA
 /*!
@@ -111,6 +119,7 @@
 typedef struct  task task_t;
 
 lista_enc_t*    criaListaDeTarefas(FILE *fp);
+lista_enc_t*    ordenaListaPorPrioridade(lista_enc_t* lista);
 
 //TASK FUNCTIONS:
 task_t*         criaTarefa(unsigned char ID,unsigned char C,unsigned char T);

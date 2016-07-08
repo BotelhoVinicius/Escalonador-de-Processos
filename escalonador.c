@@ -3,7 +3,7 @@
 *\brief Arquivo contendo a implementação das funções da biblioteca escalonador.
 *\author Vinicius Botelho Souza
 *\date Jun 2016
-*\version 1.1
+*\version 1.2
 */
 /*!
 *\enum TASK_STATE
@@ -16,24 +16,25 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "escalonador.h"/**< Biblioteca referente ao Escalonador */
+#include <string.h>
+#include "escalonador.h"    /**< Biblioteca referente ao Escalonador */
+#include "BubbleSort.h"     /**< Biblioteca de ordenação */
 
 enum TASK_STATE{
-    P_STOPPED=1,/**< 1 */
-    P_RUNNING,/**< 2 */
-    P_READY,/**< 3 */
-    P_BLOCKED/**< 4 */
+    P_STOPPED=1,    /**< 1 */
+    P_RUNNING,      /**< 2 */
+    P_READY,        /**< 3 */
+    P_BLOCKED       /**< 4 */
 };
 
 struct task{
-    unsigned char   prioridade;/**< Prioridade */
-    unsigned char   ID;/**< ID */
-    enum TASK_STATE uc_status;/**< Estado atual */
-    unsigned char   periodo;/**<  */
-    unsigned char   ciclo;/**<  */
-    unsigned char   ciclosExecutados;/**<  */
+    unsigned char   ID;                 /**< ID */
+    unsigned char   periodo;            /**< Periodo */
+    unsigned char   ciclo;              /**< Ciclo */
+    enum TASK_STATE uc_status;          /**< Estado atual */
+    unsigned char   ciclosExecutados;   /**< Ciclos Executados */
 };
-
+//CRIA LISTA DE TAREFAS
 lista_enc_t* criaListaDeTarefas(FILE *fp){
     if(fp == NULL){
         fprintf(stderr,"cria_lista_de_tarefas: Ponteiro Invalido do arquivo.");
@@ -61,7 +62,23 @@ lista_enc_t* criaListaDeTarefas(FILE *fp){
 
     return lista;
 }
+//ORDENA LISTA
+lista_enc_t* ordenaListaPorPrioridade(lista_enc_t* lista){
+    if(lista == NULL){
+        fprintf(stderr,"ordenaListaPorPrioridade: Ponteiro invalido.");
+        exit(EXIT_FAILURE);
+    }
 
+    lista_enc_t* listaOrdenada = NULL;
+
+    listaOrdenada = copiaLista(lista);
+
+    bubbleSortPrioridade(listaOrdenada);
+
+    return listaOrdenada;
+}
+//TASK FUNCTIONS:
+//CRIA TAREFA
 task_t* criaTarefa(unsigned char ID,unsigned char C,unsigned char T){
     task_t* task = NULL;
     task = malloc(sizeof(task_t));
@@ -76,7 +93,7 @@ task_t* criaTarefa(unsigned char ID,unsigned char C,unsigned char T){
 
     return task;
 }
-//TASK FUNCTIONS:
+//OBTEM_ID
 unsigned char   taskObtemID(task_t* task){
     if(task == NULL){
         fprintf(stderr,"taskObtemID: Ponteiro invalido.");
@@ -85,6 +102,7 @@ unsigned char   taskObtemID(task_t* task){
 
     return task->ID;
 }
+//OBTEM PERIODO
 unsigned char   taskObtemPeriodo(task_t* task){
     if(task == NULL){
         fprintf(stderr,"taskObtemPeriodo: Ponteiro invalido.");
@@ -93,6 +111,7 @@ unsigned char   taskObtemPeriodo(task_t* task){
 
     return task->periodo;
 }
+//OBTEM_CICLO
 unsigned char   taskObtemCiclo(task_t* task){
     if(task == NULL){
         fprintf(stderr,"taskObtemCiclo: Ponteiro invalido.");
@@ -101,6 +120,7 @@ unsigned char   taskObtemCiclo(task_t* task){
 
     return task->ciclo;
 }
+//OBTEM_CICLOS_EXECUTADOS
 unsigned char   taskObtemCiclosExecutados(task_t* task){
     if(task == NULL){
         fprintf(stderr,"taskObtemCiclo: Ponteiro invalido.");
@@ -109,7 +129,7 @@ unsigned char   taskObtemCiclosExecutados(task_t* task){
 
     return task->ciclosExecutados;
 }
-
+//CALCULA HIPERPERIODO
 int hiperPeriod(FILE *fp){
     if(fp == NULL){
         fprintf(stderr,"hiper_period: Ponteiro Invalido do arquivo.");
@@ -133,7 +153,7 @@ int hiperPeriod(FILE *fp){
 
     return HP;
 }
-
+//CALCULA MMC
 int MMC(int a,int b){
     int resto,num1=a,num2=b;
 

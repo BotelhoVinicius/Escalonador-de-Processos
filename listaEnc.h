@@ -4,7 +4,7 @@
 *\brief Arquivo contendo os prototipos das funções da biblioteca listaEnc.
 *\author Vinicius Botelho Souza
 *\date Jun 2016
-*\version 1.0
+*\version 1.1
 */
 //TYPEDEF
 /*!
@@ -159,7 +159,7 @@
 //LIBERA_LISTA
 /*!
 *\fn void liberaLista(lista_enc_t *lista);
-*\brief Esta função libera a alocação de memória de toda sua lista e nós.
+*\brief Esta função libera a alocação de memória de toda sua lista.
 *\details Caso a lista seja NULL a função irá terminar a aplicação. Exemplo:
 *\code
  char string1[] = "IFSC";
@@ -219,6 +219,14 @@
 *\param elemento Nó a ser desligado.
 *\return void
 */
+//COPIA_LISTA
+/*!
+*\fn lista_enc_t *copiaLista(lista_enc_t* lista)
+*\brief Esta função copia uma lista, alocando memoria para uma nova e seus elementos.
+*\details Caso a lista seja NULL a função irá terminar a aplicação.
+*\param lista Lista a qual deseja-se copiar.
+*\return lista_enc_t* - Endereço da lista copiada.
+*/
 #ifndef LISTA_ENC_H_INCLUDED
 #define LISTA_ENC_H_INCLUDED
 
@@ -237,5 +245,6 @@ no_t        *listaCauda(lista_enc_t *lista);
 void        liberaLista(lista_enc_t *lista);
 void        swapLista(lista_enc_t *lista,no_t *fonte,no_t *destino);
 void        desligaNoLista(lista_enc_t *lista, no_t* elemento);
+lista_enc_t *copiaLista(lista_enc_t* lista);
 
 #endif
