@@ -3,7 +3,7 @@
 *\brief Arquivo contendo os protótipos das funções da biblioteca escalonador.
 *\author Vinicius Botelho Souza
 *\date Jun 2016
-*\version 1.2
+*\version 1.3
 */
 //STRUCT
 /*!
@@ -31,14 +31,6 @@
 *\endcode
 *\param fp Arquivo de entrada.
 *\return lista_enc_t* - Lista contendo as tarefas.
-*/
-//CRIA_LISTA_DE_TAREFAS
-/*!
-*\fn lista_enc_t* ordenaListaPorPrioridade(lista_enc_t* lista)
-*\brief Ordena uma lista baseado na prioridade de cada tarefa presente na lista, ordenando por BubbleSort.
-*\details Ordena a lista utilizando bubblesort, caso a lista seja NULL a aplicação é terminada. A lista é copiada e retornada para uma nova lista ordenada.
-*\param lista Lista encadeada não ordenada.
-*\return lista_enc_t* - Lista contendo as tarefas ordenadas.
 */
 //CRIA_TAREFA
 /*!
@@ -127,6 +119,10 @@ unsigned char   taskObtemID(task_t* task);
 unsigned char   taskObtemPeriodo(task_t* task);
 unsigned char   taskObtemCiclo(task_t* task);
 unsigned char   taskObtemCiclosExecutados(task_t* task);
+void            taskSetStatus(task_t* task,int status);
+int             taskIncrementaCiclos(task_t* task);
+int             taskCheckTerminated(task_t* task);
+void            addTaskDoCiclo(lista_enc_t* listaDeID,lista_enc_t* listaDeTarefas,int CicloAtual);
 
 //USEFUL FUNCTIONS:
 int             hiperPeriod(FILE *fp);
