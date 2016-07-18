@@ -198,7 +198,8 @@ void desligaNoLista(lista_enc_t *lista, no_t* elemento){
 
     if(elemento == lista->cabeca){
         lista->cabeca = obtemProximo(elemento);
-        desligaAnterior(obtemProximo(elemento));
+        if(obtemProximo(elemento) != NULL)
+            desligaAnterior(obtemProximo(elemento));
         desligaNo(elemento);
     }
     else if(elemento == lista->cauda){

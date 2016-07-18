@@ -3,7 +3,7 @@
 *\brief Arquivo contendo as implementações das funções da biblioteca BubbleSort.
 *\author Vinicius Botelho Souza
 *\date Jun 2016
-*\version 1.0
+*\version 1.1
 */
 #include <stdio.h>
 #include <stdlib.h>
