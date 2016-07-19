@@ -3,7 +3,7 @@
 *\brief Arquivo contendo a implementação das funções da biblioteca no.
 *\author Vinicius Botelho Souza
 *\date Jun 2016
-*\version 1.0
+*\version 1.1
 */
 //LISTA_ENC
 /*!
@@ -142,3 +142,17 @@ void desligaAnterior(no_t *no){
     no->anterior = NULL;
 }
 
+no_t *copiaNo(no_t *no){
+    if (no == NULL) {
+        fprintf(stderr,"copiaNo: Ponteiros invalídos");
+        exit(EXIT_FAILURE);
+    }
+
+    no_t* noCopiado;
+
+    noCopiado = criaNo(obtemDado(no));
+    noCopiado->anterior = no->anterior;
+    noCopiado->proximo = no->proximo;
+
+    return noCopiado;
+}

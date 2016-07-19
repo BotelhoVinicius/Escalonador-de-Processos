@@ -3,7 +3,7 @@
 *\brief Arquivo contendo as implementações das funções da biblioteca listaEnc.
 *\author Vinicius Botelho Souza
 *\date Jun 2016
-*\version 1.0
+*\version 1.1
 */
 //LISTA_ENC
 /*!
@@ -171,10 +171,6 @@ no_t* listaCauda(lista_enc_t *lista){
 
 void liberaLista(lista_enc_t *lista){
     free(lista);
-
-    no_t *no = listaCabeca(lista);
-
-    liberaNo(no);
 }
 
 void swapLista(lista_enc_t *lista,no_t *fonte,no_t *destino){
@@ -202,7 +198,8 @@ void desligaNoLista(lista_enc_t *lista, no_t* elemento){
 
     if(elemento == lista->cabeca){
         lista->cabeca = obtemProximo(elemento);
-        desligaAnterior(obtemProximo(elemento));
+        if(obtemProximo(elemento) != NULL)
+            desligaAnterior(obtemProximo(elemento));
         desligaNo(elemento);
     }
     else if(elemento == lista->cauda){
@@ -217,3 +214,28 @@ void desligaNoLista(lista_enc_t *lista, no_t* elemento){
     }
     lista->tamanho--;
 }
+
+lista_enc_t *copiaLista(lista_enc_t* lista){
+    if (lista == NULL){
+        fprintf(stderr,"copiaLista: Ponteiro invalído.");
+        exit(EXIT_FAILURE);
+    }
+
+    lista_enc_t* listaCopiada;
+
+    listaCopiada = criaListaEncadeada();
+
+    no_t* no = NULL;
+    no_t* noCopiado = NULL;
+    no = listaCabeca(lista);
+
+    while(no){
+        noCopiado = copiaNo(no);
+        addCauda(listaCopiada,noCopiado);
+        no = obtemProximo(no);
+    }
+
+    return listaCopiada;
+}
+
+lista_enc_t *copiaLista(lista_enc_t* lista);

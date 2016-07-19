@@ -3,7 +3,7 @@
 *\brief Arquivo contendo os protótipos das funções da biblioteca no.
 *\author Vinicius Botelho Souza
 *\date Jun 2016
-*\version 1.0
+*\version 1.1
 */
 //TYPEDEF
 /*!
@@ -198,6 +198,14 @@
 *\param no Nó no qual se deseja desligar o endereço do elemento anterior ligado a ele.
 *\return void
 */
+//COPIA_NO
+/*!
+*\fn no_t *copiaNo(no_t *no)
+*\brief Esta função copia um nó.
+*\details Caso o nó seja NULL a função irá terminar a aplicação.
+*\param no Nó no qual se deseja copiar.
+*\return no_t* - Nó copiado.
+*/
 #ifndef NO_H_INCLUDED
 #define NO_H_INCLUDED
 
@@ -213,5 +221,6 @@ void liberaNo(no_t *no);
 void swap_nos(no_t *fonte,no_t *destino);
 void desligaProximo(no_t *no);
 void desligaAnterior(no_t *no);
+no_t *copiaNo(no_t *no);
 
 #endif // NO_H_INCLUDED
