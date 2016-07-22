@@ -115,6 +115,23 @@ void taskManegement(lista_enc_t* listaTarefas,lista_enc_t* listaPrioridade,task_
                 *previousTask = *runningTask;
             }
         }
+        else if(*previousTask == NULL){
+            if(taskIncrementaCiclos(*runningTask)){
+                taskSetStatus(*runningTask,4);
+                if(outputTEX != NULL)
+                    taskImprimeLatex(listaTarefas,listaPrioridade,cicloAtual,outputTEX);
+                desligaNoLista(listaPrioridade,listaCabeca(listaPrioridade));
+                toFree = (task_t*)obtemDado(no);
+                free(toFree);
+                free(no);
+                *previousTask = NULL;
+            }
+            else{
+                if(outputTEX != NULL)
+                    taskImprimeLatex(listaTarefas,listaPrioridade,cicloAtual,outputTEX);
+                *previousTask = *runningTask;
+            }
+        }
         else if(cicloAtual == 0){
             if(taskIncrementaCiclos(*runningTask)){
                 taskSetStatus(*runningTask,4);
