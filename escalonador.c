@@ -3,7 +3,7 @@
 *\brief Arquivo contendo a implementação das funções da biblioteca escalonador.
 *\author Vinicius Botelho Souza
 *\date Jul 2016
-*\version 1.6
+*\version 1.7
 */
 /*!
 *\enum TASK_STATE
@@ -73,7 +73,7 @@ void taskManegement(lista_enc_t* listaTarefas,lista_enc_t* listaPrioridade,task_
 
     addTaskDoCiclo(listaTarefas,listaPrioridade,cicloAtual);
     no = listaCabeca(listaPrioridade);
-
+    task_t* toFree;
     if(no != NULL){
         *runningTask = (task_t*)obtemDado(no);
 
@@ -84,11 +84,15 @@ void taskManegement(lista_enc_t* listaTarefas,lista_enc_t* listaPrioridade,task_
                 if(outputTEX != NULL)
                     taskImprimeLatex(listaTarefas,listaPrioridade,cicloAtual,outputTEX);
                 desligaNoLista(listaPrioridade,listaCabeca(listaPrioridade));
+                toFree = (task_t*)obtemDado(no);
+                free(toFree);
                 free(no);
+                *previousTask = NULL;
             }
             else{
                 if(outputTEX != NULL)
                     taskImprimeLatex(listaTarefas,listaPrioridade,cicloAtual,outputTEX);
+                *previousTask = *runningTask;
             }
         }
         else if(*previousTask != NULL){
@@ -100,11 +104,15 @@ void taskManegement(lista_enc_t* listaTarefas,lista_enc_t* listaPrioridade,task_
                 if(outputTEX != NULL)
                     taskImprimeLatex(listaTarefas,listaPrioridade,cicloAtual,outputTEX);
                 desligaNoLista(listaPrioridade,listaCabeca(listaPrioridade));
+                toFree = (task_t*)obtemDado(no);
+                free(toFree);
                 free(no);
+                *previousTask = NULL;
             }
             else{
                 if(outputTEX != NULL)
                     taskImprimeLatex(listaTarefas,listaPrioridade,cicloAtual,outputTEX);
+                *previousTask = *runningTask;
             }
         }
         else if(cicloAtual == 0){
@@ -113,15 +121,19 @@ void taskManegement(lista_enc_t* listaTarefas,lista_enc_t* listaPrioridade,task_
                 if(outputTEX != NULL)
                     taskImprimeLatex(listaTarefas,listaPrioridade,cicloAtual,outputTEX);
                 desligaNoLista(listaPrioridade,listaCabeca(listaPrioridade));
+                toFree = (task_t*)obtemDado(no);
+                free(toFree);
                 free(no);
+                *previousTask = NULL;
             }
             else{
                 if(outputTEX != NULL)
                     taskImprimeLatex(listaTarefas,listaPrioridade,cicloAtual,outputTEX);
+                *previousTask = *runningTask;
             }
         }
     }
-    *previousTask = *runningTask;
+
 }
 //TASK FUNCTIONS:
 //CRIA TAREFA

@@ -3,7 +3,7 @@
 *\brief Arquivo contendo os protótipos das funções da biblioteca no.
 *\author Vinicius Botelho Souza
 *\date Jul 2016
-*\version 1.2
+*\version 1.3
 */
 //TYPEDEF
 /*!

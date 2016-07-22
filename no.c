@@ -3,7 +3,7 @@
 *\brief Arquivo contendo a implementação das funções da biblioteca no.
 *\author Vinicius Botelho Souza
 *\date Jul 2016
-*\version 1.2
+*\version 1.3
 */
 //LISTA_ENC
 /*!
@@ -15,6 +15,7 @@
 #include <stdlib.h>
 
 #include "no.h"
+#include "escalonador.h"
 
 struct nos{
     void* dados;
@@ -95,6 +96,7 @@ void liberaNo(no_t *no){
         no_t *temp;
         while(no){
             temp = obtemProximo(no);
+            free((task_t*)obtemDado(no));
             free(no);
             no = temp;
         }

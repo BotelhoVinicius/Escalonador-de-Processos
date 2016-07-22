@@ -3,7 +3,7 @@
 *\brief Arquivo contendo os protótipos das funções da biblioteca escalonador.
 *\author Vinicius Botelho Souza
 *\date Jul 2016
-*\version 1.6
+*\version 1.7
 */
 //STRUCT
 /*!
