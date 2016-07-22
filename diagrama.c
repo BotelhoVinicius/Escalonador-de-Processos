@@ -68,7 +68,11 @@ void taskImprimeQuebraPagina(lista_enc_t *listaDeID,FILE *outputTEX,int CicloAtu
     while(no){
         fprintf(outputTEX,"\\RowLabel{%d}{$\\tau_%d$}\n", (int)taskObtemID(obtemDado(no)), (int)taskObtemID(obtemDado(no)));
         nperiodos = CICLO_MAX/(int)taskObtemPeriodo(obtemDado(no))+1;
-        fprintf(outputTEX,"\\TaskNArrival{%d}{%d}{%d}{%d}\n", (int)taskObtemID(obtemDado(no)), 0, (int)taskObtemPeriodo(obtemDado(no)), nperiodos); //{linha}{inicio}{periodo}{repetições}
+        if(nperiodos*(int)taskObtemPeriodo(obtemDado(no)) > CICLO_MAX)
+           fprintf(outputTEX,"\\TaskNArrival{%d}{%d}{%d}{%d}\n", (int)taskObtemID(obtemDado(no)), CicloAtual%((int)taskObtemPeriodo(obtemDado(no))) , (int)taskObtemPeriodo(obtemDado(no)), nperiodos-1);
+
+        else
+            fprintf(outputTEX,"\\TaskNArrival{%d}{%d}{%d}{%d}\n", (int)taskObtemID(obtemDado(no)), CicloAtual%((int)taskObtemPeriodo(obtemDado(no))) , (int)taskObtemPeriodo(obtemDado(no)), nperiodos-1);
         no = obtemProximo(no);
     }
 }
