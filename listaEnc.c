@@ -2,8 +2,8 @@
 *\file
 *\brief Arquivo contendo as implementações das funções da biblioteca listaEnc.
 *\author Vinicius Botelho Souza
-*\date Jun 2016
-*\version 1.2
+*\date Jul 2016
+*\version 1.3
 */
 //LISTA_ENC
 /*!

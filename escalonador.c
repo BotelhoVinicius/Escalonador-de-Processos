@@ -2,8 +2,8 @@
 *\file
 *\brief Arquivo contendo a implementação das funções da biblioteca escalonador.
 *\author Vinicius Botelho Souza
-*\date Jun 2016
-*\version 1.3
+*\date Jul 2016
+*\version 1.5
 */
 /*!
 *\enum TASK_STATE
@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "escalonador.h"    /**< Biblioteca referente ao Escalonador */
+#include "diagrama.h"
 
 enum TASK_STATE{
     P_READY=1,  /**< 1 */
@@ -63,7 +64,11 @@ lista_enc_t* criaListaDeTarefas(FILE *fp){
     return lista;
 }
 //FAZ O ESCALONAMENTO DAS TAREFAS
-void taskManegement(lista_enc_t* listaTarefas,lista_enc_t* listaPrioridade,task_t** runningTask,task_t** previousTask,int cicloAtual){
+void taskManegement(lista_enc_t* listaTarefas,lista_enc_t* listaPrioridade,task_t** runningTask,task_t** previousTask,int cicloAtual,FILE *outputTEX){
+    if(listaTarefas == NULL || listaPrioridade == NULL){
+        fprintf(stderr,"taskManegement: Ponteiro Invalido do arquivo.");
+        exit(EXIT_FAILURE);
+    }
     no_t* no;
 
     addTaskDoCiclo(listaTarefas,listaPrioridade,cicloAtual);
@@ -76,8 +81,14 @@ void taskManegement(lista_enc_t* listaTarefas,lista_enc_t* listaPrioridade,task_
         if(*previousTask == *runningTask){
             if(taskIncrementaCiclos(*runningTask)){
                 taskSetStatus(*runningTask,4);
+                if(outputTEX != NULL)
+                    taskImprimeLatex(listaTarefas,listaPrioridade,cicloAtual,outputTEX);
                 desligaNoLista(listaPrioridade,listaCabeca(listaPrioridade));
                 free(no);
+            }
+            else{
+                if(outputTEX != NULL)
+                    taskImprimeLatex(listaTarefas,listaPrioridade,cicloAtual,outputTEX);
             }
         }
         else if(*previousTask != NULL){
@@ -86,15 +97,27 @@ void taskManegement(lista_enc_t* listaTarefas,lista_enc_t* listaPrioridade,task_
             }
             if(taskIncrementaCiclos(*runningTask)){
                 taskSetStatus(*runningTask,4);
+                if(outputTEX != NULL)
+                    taskImprimeLatex(listaTarefas,listaPrioridade,cicloAtual,outputTEX);
                 desligaNoLista(listaPrioridade,listaCabeca(listaPrioridade));
                 free(no);
+            }
+            else{
+                if(outputTEX != NULL)
+                    taskImprimeLatex(listaTarefas,listaPrioridade,cicloAtual,outputTEX);
             }
         }
         else if(cicloAtual == 0){
             if(taskIncrementaCiclos(*runningTask)){
                 taskSetStatus(*runningTask,4);
+                if(outputTEX != NULL)
+                    taskImprimeLatex(listaTarefas,listaPrioridade,cicloAtual,outputTEX);
                 desligaNoLista(listaPrioridade,listaCabeca(listaPrioridade));
                 free(no);
+            }
+            else{
+                if(outputTEX != NULL)
+                    taskImprimeLatex(listaTarefas,listaPrioridade,cicloAtual,outputTEX);
             }
         }
     }

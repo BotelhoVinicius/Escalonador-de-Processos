@@ -2,8 +2,8 @@
 *\file
 *\brief Arquivo contendo os protótipos das funções da biblioteca escalonador.
 *\author Vinicius Botelho Souza
-*\date Jun 2016
-*\version 1.3
+*\date Jul 2016
+*\version 1.5
 */
 //STRUCT
 /*!
@@ -163,12 +163,12 @@
 #include "listaEnc.h"
 
 #ifndef ESCALONADOR_H
-#define ESCALONADOR
+#define ESCALONADOR_H
 
 typedef struct  task task_t;
 
 lista_enc_t*    criaListaDeTarefas(FILE *fp);
-void            taskManegement(lista_enc_t* listaTarefas,lista_enc_t* listaPrioridade,task_t** runningTask,task_t** previousTask,int cicloAtual);
+void            taskManegement(lista_enc_t* listaTarefas,lista_enc_t* listaPrioridade,task_t** runningTask,task_t** previousTask,int cicloAtual,FILE *outputTEX);
 
 //TASK FUNCTIONS:
 task_t*         criaTarefa(unsigned char ID,unsigned char C,unsigned char T);

@@ -2,7 +2,7 @@
 *\file
 *\brief Arquivo contendo a implementação das funções da biblioteca no.
 *\author Vinicius Botelho Souza
-*\date Jun 2016
+*\date Jul 2016
 *\version 1.2
 */
 //LISTA_ENC

@@ -1,7 +1,7 @@
 /*!
 *\file
-*\author Vinicius Botelho Souza
-*\date Jun 2016
+*\author Vinicius Botelho Souza & Bruno Eduardo Ferreira
+*\date Jul 2016
 *\brief Arquivo principal do programa escalonador de processos.
 *\details Este programa irá implementar um escalonador de processos, onde os processos serão dados a partir de um arquivo de texto e este programa irá gerencia-los visando executa-los na sequência correta. O Primeiro argumento é o arquivo de entrada contendo a lista de tarefas, o segundo é o arquivo de saída contendo o escalonamento.
 */
@@ -10,6 +10,7 @@
 #include "escalonador.h"/**< Biblioteca referente ao Escalonador */
 #include "listaEnc.h"/**< Biblioteca referente a Lista Duplamente Encadeada */
 #include "no.h"/**< Biblioteca referente a Nós */
+#include "diagrama.h"/**< Biblioteca da impressão do Diagrama */
 //#include "testGenerator.h"
 
 #define DEBUG
@@ -43,9 +44,11 @@ int main(int argc,char** argv)
         exit(EXIT_FAILURE);
     }
 
+    taskImprimeCabecalho(listaTarefas,output);
     for(i=0;i<=HP;i++){
-        taskManegement(listaTarefas,listaPrioridade,&runningTask,&previousTask,i);
+        taskManegement(listaTarefas,listaPrioridade,&runningTask,&previousTask,i,output);
     }
+    taskImprimeFim(listaTarefas,output);
 
     fclose(output);
 
