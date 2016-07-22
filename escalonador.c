@@ -293,7 +293,7 @@ void taskInsertion(lista_enc_t *lista,no_t *elemento){
     no = listaCabeca(lista);
 
     while(no){
-        if(taskObtemCiclo(obtemDado(elemento)) < taskObtemCiclo(obtemDado(no))){
+        if(taskObtemPeriodo(obtemDado(elemento)) < taskObtemPeriodo(obtemDado(no))){
             intercalaElemento(lista,obtemAnterior(no),no,elemento);
             break;
         }
