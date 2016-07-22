@@ -20,6 +20,9 @@ int main(int argc,char** argv)
 {
     FILE *input = NULL,*output = NULL;
     lista_enc_t *listaTarefas = NULL,*listaPrioridade = NULL;
+    int i;
+    no_t *no;
+    task_t *runningTask=NULL,*previousTask=NULL;
 
     input = fopen(argv[1],"r");
     if(input == NULL){
@@ -34,119 +37,24 @@ int main(int argc,char** argv)
 
     fclose(input);
 
-    imprimeLista(listaTarefas);
-    printf("\n");
-    imprimeLista(listaPrioridade);
-
     output = fopen(argv[2],"w");
     if(output == NULL){
         fprintf(stderr,"Erro: Arquivo de saida invalido.");
         exit(EXIT_FAILURE);
     }
-    fprintf(output,"NT;%d\n",listaTamanho(listaTarefas));
-    fprintf(output,"HP;%d\n",HP);
-    fprintf(output,"C;ID;CE;S\n");
 
-    int i;
-    no_t *no;
-    task_t *runningTask,*previousTask=NULL;
     for(i=0;i<=HP;i++){
-        addTaskDoCiclo(listaTarefas,listaPrioridade,i);
-        no = listaCabeca(listaPrioridade);
-
-        if(no != NULL){
-            runningTask = obtemDado(no);
-
-            taskSetStatus(runningTask,2);
-            fprintf(output,"%d-I;%d;%d;%d\n",i,taskObtemID(runningTask),taskObtemCiclosExecutados(runningTask),2);
-        #ifdef DEBUG
-            printf("Ciclo-I: %d RUNNING_TASK: ID:%d CiclosExecutados:%d Status: %s\n",i,taskObtemID(runningTask)
-                        ,taskObtemCiclosExecutados(runningTask)
-                        ,"RUNNING");
-        #endif // DEBUG
-            if(previousTask == runningTask){
-                if(taskIncrementaCiclos(runningTask)){
-                    taskSetStatus(runningTask,4);
-                    desligaNoLista(listaPrioridade,listaCabeca(listaPrioridade));
-                    fprintf(output,"%d-F;%d;%d;%d\n",i,taskObtemID(runningTask),taskObtemCiclosExecutados(runningTask),4);
-                #ifdef DEBUG
-                    printf("Ciclo-F: %d RUNNING_TASK: ID:%d CiclosExecutados:%d Status: %s\n",i,taskObtemID(runningTask)
-                           ,taskObtemCiclosExecutados(runningTask)
-                           ,"TERMINATED");
-                #endif // DEBUG
-                }
-                else{
-                    fprintf(output,"%d-F;%d;%d;%d\n",i,taskObtemID(runningTask),taskObtemCiclosExecutados(runningTask),2);
-                #ifdef DEBUG
-                    printf("Ciclo-F: %d RUNNING_TASK: ID:%d CiclosExecutados:%d Status: %s\n",i,taskObtemID(runningTask)
-                           ,taskObtemCiclosExecutados(runningTask)
-                           ,"RUNNING");
-                #endif // DEBUG
-                }
-            }
-            else if(previousTask != NULL){
-                if(!taskCheckTerminated(previousTask)){
-                    taskSetStatus(previousTask,3);
-                    fprintf(output,"%d-I;%d;%d;%d\n",i,taskObtemID(previousTask),taskObtemCiclosExecutados(previousTask),3);
-                    fprintf(output,"%d-I;%d;%d;%d\n",i,taskObtemID(runningTask),taskObtemCiclosExecutados(runningTask),2);
-                #ifdef DEBUG
-                    printf("Ciclo-I: %d BLOCKED_TASK: ID:%d CiclosExecutados:%d Status: %s\n",i,taskObtemID(previousTask)
-                           ,taskObtemCiclosExecutados(previousTask)
-                           ,"BLOCKED");
-                    printf("Ciclo-I: %d RUNNING_TASK: ID:%d CiclosExecutados:%d Status: %s\n",i,taskObtemID(runningTask)
-                           ,taskObtemCiclosExecutados(runningTask)
-                           ,"RUNNING");
-                #endif // DEBUG
-                }
-                if(taskIncrementaCiclos(runningTask)){
-                    taskSetStatus(runningTask,4);
-                    desligaNoLista(listaPrioridade,listaCabeca(listaPrioridade));
-                    fprintf(output,"%d-F;%d;%d;%d\n",i,taskObtemID(runningTask),taskObtemCiclosExecutados(runningTask),4);
-                #ifdef DEBUG
-                    printf("Ciclo-F: %d RUNNING_TASK: ID:%d CiclosExecutados:%d Status: %s\n",i,taskObtemID(runningTask)
-                           ,taskObtemCiclosExecutados(runningTask)
-                           ,"TERMINATED");
-                #endif // DEBUG
-                }
-                else if(taskCheckTerminated(previousTask)){
-                    fprintf(output,"%d-F;%d;%d;%d\n",i,taskObtemID(runningTask),taskObtemCiclosExecutados(runningTask),2);
-                    #ifdef DEBUG
-                    printf("Ciclo-F: %d RUNNING_TASK: ID:%d CiclosExecutados:%d Status: %s\n",i,taskObtemID(runningTask)
-                           ,taskObtemCiclosExecutados(runningTask)
-                           ,"RUNNING");
-                    #endif // DEBUG
-                }
-            }
-            else if(i == 0){
-                if(taskIncrementaCiclos(runningTask)){
-                    taskSetStatus(runningTask,4);
-                    desligaNoLista(listaPrioridade,listaCabeca(listaPrioridade));
-                    fprintf(output,"%d-F;%d;%d;%d\n",i,taskObtemID(runningTask),taskObtemCiclosExecutados(runningTask),4);
-                #ifdef DEBUG
-                    printf("Ciclo-F: %d RUNNING_TASK: ID:%d CiclosExecutados:%d Status: %s\n",i,taskObtemID(runningTask)
-                           ,taskObtemCiclosExecutados(runningTask)
-                           ,"TERMINATED");
-                #endif // DEBUG
-                }
-                else if(taskCheckTerminated(previousTask)){
-                    fprintf(output,"%d-F;%d;%d;%d\n",i,taskObtemID(runningTask),taskObtemCiclosExecutados(runningTask),2);
-                #ifdef DEBUG
-                    printf("Ciclo-F: %d RUNNING_TASK: ID:%d CiclosExecutados:%d Status: %s\n",i,taskObtemID(runningTask)
-                           ,taskObtemCiclosExecutados(runningTask)
-                           ,"RUNNING");
-                #endif // DEBUG
-                }
-            }
-
-        }
-        previousTask = runningTask;
+        taskManegement(listaTarefas,listaPrioridade,&runningTask,&previousTask,i);
     }
-    printf("\n");
-    imprimeLista(listaPrioridade);
-
-    printf("HIPERCICLO: %d\n",HP);
 
     fclose(output);
+
+    no = listaCabeca(listaPrioridade);
+    liberaNo(no);
+    liberaLista(listaPrioridade);
+    no = listaCabeca(listaTarefas);
+    liberaNo(no);
+    liberaLista(listaTarefas);
 
     return 0;
 }
@@ -170,4 +78,5 @@ void imprimeLista(lista_enc_t* lista){
 
         no = obtemProximo(no);
     }
+    printf("\n\n");
 }

@@ -32,6 +32,18 @@
 *\param fp Arquivo de entrada.
 *\return lista_enc_t* - Lista contendo as tarefas.
 */
+//FAZ O ESCALONAMENTO DAS TAREFAS
+/*!
+*\fn void taskManegement(lista_enc_t* listaTarefas,lista_enc_t* listaPrioridade,task_t** runningTask,task_t** previousTask,int cicloAtual)
+*\brief Esta função o escalonamento das tarefas.
+*\details O escalonamento se dará por um loop incrementando o ciclo atual e chamando está função, mas para funcionar corretamente a contagem dos ciclos precisa ser continua nos inteiros. Caso um destes parametros forem nulos o programa encerrará a execução
+*\param listaTarefas - Lista contendo todas as tarefas.
+*\param listaPrioridade - Lista contendo tarefas em execução e bloqueadas.
+*\param runningTask - Tafera atualmente rodando.
+*\param previousTask - Tarefa que executou no ciclo anterior.
+*\param cicloAtual - Ciclo de execução atual.
+*\return void
+*/
 //CRIA_TAREFA
 /*!
 *\fn task_t* criaTarefa(unsigned char ID,unsigned char C,unsigned char T)
@@ -74,6 +86,41 @@
 *\param task Tarefa o qual deseja-se obter o numero de ciclos executados.
 *\return unsigned char - numero de ciclos executados da tarefa.
 */
+//CONFIGURA O STATUS ATUAL DA TASK
+/*!
+*\fn void taskSetStatus(task_t* task,int status);
+*\brief Esta função confugura o status atual de uma tarefa.
+*\details Caso o parametro de entrada seja NULL a função irá terminar a aplicação.
+*\param task Tarefa o qual deseja-se configurar o status.
+*\param status Status o qual deseja alterar
+*\return void
+*/
+//INCREMENTA CICLOS
+/*!
+*\fn int taskIncrementaCiclos(task_t* task)
+*\brief Esta função incrementa os ciclos de uma tarefa.
+*\details Caso o parametro de entrada seja NULL a função irá terminar a aplicação.
+*\param task Tarefa o qual deseja-se incrementar o ciclo executado.
+*\return int - Retorna 1 em caso de os ciclos executados serem igual ao numero de execução de ciclo da tarefa e 0 em caso contrario.
+*/
+//CHECAGEM DE TERMINO
+/*!
+*\fn int taskCheckTerminated(task_t* task)
+*\brief Esta função verifica se a tarefa foi terminada.
+*\details Caso o parametro de entrada seja NULL a função irá terminar a aplicação.
+*\param task Tarefa o qual deseja-se fazer a verificação.
+*\return int - Retorna 1 em caso de sim e 0 em caso de não.
+*/
+//ADD TASK DO CICLO
+/*!
+*\fn void addTaskDoCiclo(lista_enc_t* listaDeID,lista_enc_t* listaDeTarefas,int CicloAtual)
+*\brief Esta função adiciona todas as tarefas que devem ser adicionadas no ciclo atual de execução.
+*\details Caso o parametro de entrada seja NULL a função irá terminar a aplicação.
+*\param listaDeID Lista contendo todas as tarefas.
+*\param listaDeTarefas Lista do escalonamento.
+*\param CicloAtual Ciclo atual de execução.
+*\return void
+*/
 //CALCULA_HIPER_PERIODO
 /*!
 *\fn int hiperPeriod(FILE *fp)
@@ -103,6 +150,16 @@
 *\details Esta funcão é utilizada pela função do hiper-periodo para calcular o mesmo.
 *\return int - Minimo multiplo entre "a" e "b".
 */
+//TASK_INSERTION
+/*!
+*\fn void taskInsertion(lista_enc_t *lista,no_t *elemento);
+*\brief Esta função faz a inserção de uma tarefa na lista.
+*\details Inserção de uma tarefa na lista, já ordenando a mesma por prioridade. Se algum dos parâmetros forem nulos o programa encerra a execução.
+*\param lista - Lista para a tarefa ser inserida.
+*\param elemento - Nó já criado com a task a ser inserida.
+*\return void
+*/
+
 #include "listaEnc.h"
 
 #ifndef ESCALONADOR_H
@@ -111,7 +168,7 @@
 typedef struct  task task_t;
 
 lista_enc_t*    criaListaDeTarefas(FILE *fp);
-lista_enc_t*    ordenaListaPorPrioridade(lista_enc_t* lista);
+void            taskManegement(lista_enc_t* listaTarefas,lista_enc_t* listaPrioridade,task_t** runningTask,task_t** previousTask,int cicloAtual);
 
 //TASK FUNCTIONS:
 task_t*         criaTarefa(unsigned char ID,unsigned char C,unsigned char T);
@@ -127,5 +184,6 @@ void            addTaskDoCiclo(lista_enc_t* listaDeID,lista_enc_t* listaDeTarefa
 //USEFUL FUNCTIONS:
 int             hiperPeriod(FILE *fp);
 int             MMC(int a,int b);
+void            taskInsertion(lista_enc_t *lista,no_t *elemento);
 
 #endif // ESCALONADOR_H

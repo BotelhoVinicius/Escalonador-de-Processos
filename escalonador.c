@@ -18,7 +18,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "escalonador.h"    /**< Biblioteca referente ao Escalonador */
-#include "BubbleSort.h"     /**< Biblioteca de ordenação */
 
 enum TASK_STATE{
     P_READY=1,  /**< 1 */
@@ -62,6 +61,44 @@ lista_enc_t* criaListaDeTarefas(FILE *fp){
     }
 
     return lista;
+}
+//FAZ O ESCALONAMENTO DAS TAREFAS
+void taskManegement(lista_enc_t* listaTarefas,lista_enc_t* listaPrioridade,task_t** runningTask,task_t** previousTask,int cicloAtual){
+    no_t* no;
+
+    addTaskDoCiclo(listaTarefas,listaPrioridade,cicloAtual);
+    no = listaCabeca(listaPrioridade);
+
+    if(no != NULL){
+        *runningTask = (task_t*)obtemDado(no);
+
+        taskSetStatus(*runningTask,2);
+        if(*previousTask == *runningTask){
+            if(taskIncrementaCiclos(*runningTask)){
+                taskSetStatus(*runningTask,4);
+                desligaNoLista(listaPrioridade,listaCabeca(listaPrioridade));
+                free(no);
+            }
+        }
+        else if(*previousTask != NULL){
+            if(!taskCheckTerminated(*previousTask)){
+                taskSetStatus(*previousTask,3);
+            }
+            if(taskIncrementaCiclos(*runningTask)){
+                taskSetStatus(*runningTask,4);
+                desligaNoLista(listaPrioridade,listaCabeca(listaPrioridade));
+                free(no);
+            }
+        }
+        else if(cicloAtual == 0){
+            if(taskIncrementaCiclos(*runningTask)){
+                taskSetStatus(*runningTask,4);
+                desligaNoLista(listaPrioridade,listaCabeca(listaPrioridade));
+                free(no);
+            }
+        }
+    }
+    *previousTask = *runningTask;
 }
 //TASK FUNCTIONS:
 //CRIA TAREFA
@@ -167,7 +204,7 @@ void addTaskDoCiclo(lista_enc_t* listaDeID,lista_enc_t* listaDeTarefas,int Ciclo
     }
     no_t* elemento = listaCabeca(listaDeID);
 
-    while(elemento){
+    while(elemento != NULL){
         if(CicloAtual%(taskObtemPeriodo(obtemDado(elemento))) == 0){
             task_t* tarefa = obtemDado(elemento);
             task_t* tarefaParaAdicionar = malloc(sizeof(task_t));
@@ -181,8 +218,7 @@ void addTaskDoCiclo(lista_enc_t* listaDeID,lista_enc_t* listaDeTarefas,int Ciclo
 
             no = criaNo((void*)tarefaParaAdicionar);
 
-            addCauda(listaDeTarefas,no);
-            bubbleSortPrioridade(listaDeTarefas);
+            taskInsertion(listaDeTarefas,no);
         }
         elemento = obtemProximo(elemento);
     }
@@ -222,4 +258,26 @@ int MMC(int a,int b){
     }while(resto != 0);
 
     return (a*b)/num1;
+}
+
+void taskInsertion(lista_enc_t *lista,no_t *elemento){
+    if(lista == NULL || elemento == NULL){
+        fprintf(stderr,"binarySearch: Ponteiro invalido.");
+        exit(EXIT_FAILURE);
+    }
+
+    no_t* no;
+    no = listaCabeca(lista);
+
+    while(no){
+        if(taskObtemCiclo(obtemDado(elemento)) < taskObtemCiclo(obtemDado(no))){
+            intercalaElemento(lista,obtemAnterior(no),no,elemento);
+            break;
+        }
+        no = obtemProximo(no);
+    }
+    if(no==NULL){
+        addCauda(lista,elemento);
+    }
+
 }

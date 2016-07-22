@@ -4,7 +4,7 @@
 *\brief Arquivo contendo os prototipos das funções da biblioteca listaEnc.
 *\author Vinicius Botelho Souza
 *\date Jun 2016
-*\version 1.1
+*\version 1.2
 */
 //TYPEDEF
 /*!
@@ -33,6 +33,18 @@
  *\param elemento Nó ao qual irá adicionar na cauda.
  *\return void
  */
+//INTERCALA
+/*!
+ *\fn void intercalaElemento(lista_enc_t *lista, no_t* anterior, no_t* proximo,no_t* elemento)
+ *\brief Esta função intercala um elemento entre dois nós da lista.
+ *\details Caso a lista seja NULL ou os elementos sejam NULL, a função termina a aplicação.
+ *\param lista Lista a qual o elemento irá ser adicionado.
+ *\param anterior Elemento anterior ao que será adicionado.
+ *\param proximo Elemento sucessor ao que será adicionado.
+ *\param elemento Nó ao qual irá adicionar entre os elementos.
+ *\return void
+ */
+
 //ADD_CABECA
 /*!
  *\fn void addCabeca(lista_enc_t *lista, no_t* elemento)
@@ -236,6 +248,7 @@ typedef struct listas_enc lista_enc_t;
 
 lista_enc_t *criaListaEncadeada(void);
 void        addCauda(lista_enc_t *lista, no_t* elemento);
+void        intercalaElemento(lista_enc_t *lista, no_t* anterior, no_t* proximo,no_t* elemento);
 void        addCabeca(lista_enc_t *lista, no_t* elemento);
 no_t        *removeElemento(lista_enc_t *lista, int pos);
 int         listaPosicao(lista_enc_t *lista,void* dado);

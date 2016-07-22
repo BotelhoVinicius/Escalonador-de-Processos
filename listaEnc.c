@@ -3,7 +3,7 @@
 *\brief Arquivo contendo as implementações das funções da biblioteca listaEnc.
 *\author Vinicius Botelho Souza
 *\date Jun 2016
-*\version 1.1
+*\version 1.2
 */
 //LISTA_ENC
 /*!
@@ -56,9 +56,29 @@ void addCauda(lista_enc_t *lista, no_t* elemento){
    }
 }
 
+void intercalaElemento(lista_enc_t *lista, no_t* anterior, no_t* proximo,no_t* elemento){
+    if (lista == NULL || elemento == NULL ){
+        fprintf(stderr,"intercalaElemento: ponteiros invalidos");
+        exit(EXIT_FAILURE);
+    }
+
+    if(anterior == NULL && proximo != NULL){
+        addCabeca(lista,elemento);
+    }
+    else if(proximo == NULL){
+        addCauda(lista,elemento);
+    }
+    else{
+        ligaNo(anterior,elemento);
+        ligaNo(elemento,proximo);
+        lista->tamanho++;
+    }
+
+}
+
 void addCabeca(lista_enc_t *lista, no_t* elemento){
     if (lista == NULL || elemento == NULL){
-        fprintf(stderr,"add_cauda: ponteiros invalidos");
+        fprintf(stderr,"addCabeca: ponteiros invalidos");
         exit(EXIT_FAILURE);
     }
 
@@ -213,6 +233,7 @@ void desligaNoLista(lista_enc_t *lista, no_t* elemento){
 
     }
     lista->tamanho--;
+
 }
 
 lista_enc_t *copiaLista(lista_enc_t* lista){
@@ -237,5 +258,3 @@ lista_enc_t *copiaLista(lista_enc_t* lista){
 
     return listaCopiada;
 }
-
-lista_enc_t *copiaLista(lista_enc_t* lista);
