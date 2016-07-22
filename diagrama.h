@@ -3,7 +3,7 @@
 *\brief Arquivo contendo a declaração das funções para impressão do diagrama do escalonador.
 *\author Bruno Eduardo Ferreira
 *\date Jul 2016
-*\version 2.0
+*\version 2.1
 */
 /*!
  *\fn void taskImprimeCabecalho(lista_enc_t *listaDeID,FILE *outputTEX)

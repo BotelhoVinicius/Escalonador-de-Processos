@@ -39,18 +39,16 @@ int main(int argc,char** argv)
     fclose(input);
 
     output = fopen(argv[2],"w");
-    if(output == NULL){
-        fprintf(stderr,"Erro: Arquivo de saida invalido.");
-        exit(EXIT_FAILURE);
-    }
 
-    taskImprimeCabecalho(listaTarefas,output);
+    if(output != NULL)
+        taskImprimeCabecalho(listaTarefas,output);
     for(i=0;i<=HP;i++){
         taskManegement(listaTarefas,listaPrioridade,&runningTask,&previousTask,i,output);
     }
-    taskImprimeFim(listaTarefas,output);
-
-    fclose(output);
+    if(output != NULL){
+        taskImprimeFim(listaTarefas,output);
+        fclose(output);
+    }
 
     no = listaCabeca(listaPrioridade);
     liberaNo(no);
@@ -60,26 +58,4 @@ int main(int argc,char** argv)
     liberaLista(listaTarefas);
 
     return 0;
-}
-
-void imprimeLista(lista_enc_t* lista){
-    no_t* no;
-    int i;
-
-    no = listaCabeca(lista);
-
-    printf("ANTERIOR:\tNO:\t\tPROXIMO:\tID:\tC:\tT:\tC_Exec:\n");
-    for(i=0;i<listaTamanho(lista);i++){
-        printf("%p\t%p\t%p\t%d\t%d\t%d\t%d\n"
-                ,obtemAnterior(no)
-                ,no
-                ,obtemProximo(no)
-                ,(int)taskObtemID(obtemDado(no))
-                ,(int)taskObtemCiclo(obtemDado(no))
-                ,(int)taskObtemPeriodo(obtemDado(no))
-                ,(int)taskObtemCiclosExecutados(obtemDado(no)));
-
-        no = obtemProximo(no);
-    }
-    printf("\n\n");
 }
