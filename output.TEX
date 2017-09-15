@@ -1,0 +1,95 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{listingsutf8}
+\usepackage{rtsched}
+\usepackage{pdflscape}
+\title{Diagrama de execucao}
+\author{Bruno Eduardo Ferreira
+   \\Vinicius Botelho Souza}
+
+\begin{document}
+
+\definecolor{1}{rgb}{0.0, 0.0, 0.5}
+\definecolor{2}{rgb}{0.0, 0.5, 0.0}
+\definecolor{3}{rgb}{0.0, 0.0, 1.0}
+\definecolor{4}{rgb}{0.55, 0.71, 0.0}
+\definecolor{5}{rgb}{0.36, 0.54, 0.66}
+\definecolor{6}{rgb}{0.53, 0.66, 0.42}
+\definecolor{7}{rgb}{0.03, 0.91, 0.87}
+\definecolor{8}{rgb}{0.4, 1.0, 0.0}
+\definecolor{9}{rgb}{0.0, 0.75, 1.0}
+\definecolor{10}{rgb}{0.0, 0.26, 0.15}
+\begin{landscape}
+\begin{figure}[h]
+  \centering
+
+\begin{flushleft}
+  \begin{RTGrid}[nosymbols=1,width=20cm,numoffset=0]{4}{70}
+\RowLabel{1}{$\tau_1$}
+\TaskNArrival{1}{0}{4}{18}
+\RowLabel{2}{$\tau_2$}
+\TaskNArrival{2}{0}{6}{12}
+\RowLabel{3}{$\tau_3$}
+\TaskNArrival{3}{0}{8}{9}
+\RowLabel{4}{CPU}
+\TaskExecution[color=1]{1}{0}{1}
+\TaskExecution[color=1]{4}{0}{1}
+\TaskExecution[color=1]{1}{1}{2}
+\TaskExecution[color=1]{4}{1}{2}
+\TaskExecution[color=1]{1}{2}{3}
+\TaskExecution[color=1]{4}{2}{3}
+\TaskExecution[color=2]{2}{3}{4}
+\TaskExecution[color=2]{4}{3}{4}
+\TaskExecution[color=1]{1}{4}{5}
+\TaskExecution[color=1]{4}{4}{5}
+\TaskExecution[color=1]{1}{5}{6}
+\TaskExecution[color=1]{4}{5}{6}
+\TaskExecution[color=1]{1}{6}{7}
+\TaskExecution[color=1]{4}{6}{7}
+\TaskExecution[color=2]{2}{7}{8}
+\TaskExecution[color=2]{4}{7}{8}
+\TaskExecution[color=1]{1}{8}{9}
+\TaskExecution[color=1]{4}{8}{9}
+\TaskExecution[color=1]{1}{9}{10}
+\TaskExecution[color=1]{4}{9}{10}
+\TaskExecution[color=1]{1}{10}{11}
+\TaskExecution[color=1]{4}{10}{11}
+\TaskExecution[color=2]{2}{11}{12}
+\TaskExecution[color=2]{4}{11}{12}
+\TaskExecution[color=1]{1}{12}{13}
+\TaskExecution[color=1]{4}{12}{13}
+\TaskExecution[color=1]{1}{13}{14}
+\TaskExecution[color=1]{4}{13}{14}
+\TaskExecution[color=1]{1}{14}{15}
+\TaskExecution[color=1]{4}{14}{15}
+\TaskExecution[color=2]{2}{15}{16}
+\TaskExecution[color=2]{4}{15}{16}
+\TaskExecution[color=1]{1}{16}{17}
+\TaskExecution[color=1]{4}{16}{17}
+\TaskExecution[color=1]{1}{17}{18}
+\TaskExecution[color=1]{4}{17}{18}
+\TaskExecution[color=1]{1}{18}{19}
+\TaskExecution[color=1]{4}{18}{19}
+\TaskExecution[color=2]{2}{19}{20}
+\TaskExecution[color=2]{4}{19}{20}
+\TaskExecution[color=1]{1}{20}{21}
+\TaskExecution[color=1]{4}{20}{21}
+\TaskExecution[color=1]{1}{21}{22}
+\TaskExecution[color=1]{4}{21}{22}
+\TaskExecution[color=1]{1}{22}{23}
+\TaskExecution[color=1]{4}{22}{23}
+\TaskExecution[color=2]{2}{23}{24}
+\TaskExecution[color=2]{4}{23}{24}
+\TaskExecution[color=1]{1}{24}{25}
+\TaskExecution[color=1]{4}{24}{25}
+  \end{RTGrid}
+\end{flushleft}
+\caption{Escalonador para ate 10 tarefas}
+\label{fig:ex1}
+\end{figure}
+\end{landscape}
+\end{document}
